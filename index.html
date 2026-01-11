@@ -175,7 +175,7 @@ button.secondary {
             <div>
                 <label>Bankroll inițial ($)</label>
                 <input type="number" id="initialBankroll">
-                <span class="help">Suma cu care începi jocul</span>
+                <span class="help">Suma de bani cu care începi jocul</span>
             </div>
             <div>
                 <label>Număr pachete</label>
@@ -185,7 +185,7 @@ button.secondary {
             <div>
                 <label>Procent unitate (%)</label>
                 <input type="number" id="unitPercentage">
-                <span class="help">Procent din bankroll folosit la pariere</span>
+                <span class="help">Procent din bankroll folosit la mâna jucată</span>
             </div>
         </div>
         <button onclick="initializeGame()">Start joc</button>
@@ -198,8 +198,8 @@ button.secondary {
         <div class="panel">
             <h3>Dealer</h3>
             <input type="number" id="dealerCard">
-            <span class="help">Cartea vizibilă a dealerului (As = 11)</span>
             <button onclick="setDealerCard()">Confirmă</button>
+			<span class="help">Cartea vizibilă a dealerului (As = 11)</span>
         </div>
 
         <div class="panel">
@@ -208,15 +208,15 @@ button.secondary {
                 <input type="number" id="playerCard1" placeholder="Carte 1">
                 <input type="number" id="playerCard2" placeholder="Carte 2">
             </div>
-            <span class="help">Cele două cărți inițiale ale jucătorului</span>
             <button onclick="setPlayerCards()">Confirmă</button>
+			<span class="help">Cele două cărți inițiale ale jucătorului</span>
         </div>
 
         <div class="panel">
             <h3>Cărțile celorlalți jucători</h3>
             <input type="number" id="otherPlayersCard">
+			<button onclick="addOtherPlayerCard()">Adaugă carte</button>
             <span class="help">Influențează calculul running count</span>
-            <button onclick="addOtherPlayerCard()">Adaugă carte</button>
         </div>
 
         <div class="panel">
@@ -233,9 +233,10 @@ button.secondary {
         <div class="panel">
             <h3>Cărțile finale ale dealerului</h3>
             <input type="number" id="dealerFinalCard">
-            <span class="help">Introdu cărțile dealerului până la final</span>
+            
             <button onclick="addDealerFinalCard()">Adaugă carte</button>
             <button onclick="finishHand()">Finalizează mâna</button>
+			<span class="help">Introdu cărțile dealerului până la final</span>
         </div>
 
     </div>
@@ -346,7 +347,7 @@ button.secondary {
                 updateCount(card);
                 if (card === 11) {
                     const takeInsurance = calculateTrueCount() >= 3;
-                    alert(takeInsurance ? "Take insurance!" : "Don't take insurance!");
+                    alert(takeInsurance ? "Ia asigurare!" : "Nu lua asigurare!");
                 }
             }
         }
