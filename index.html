@@ -2,10 +2,10 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<title>Strategii Blackjack</title>
+<title>Aplicarea strategiilor în Blackjack</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Google Font -->
+<!-- Font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <!-- Firebase -->
@@ -14,12 +14,12 @@
 
 <style>
 :root {
-    --bg: #0f172a;
-    --card: #1e293b;
+    --bg: #111827;
+    --panel: #1f2933;
+    --panel-light: #273244;
     --accent: #22c55e;
-    --accent-soft: #16a34a;
     --text: #e5e7eb;
-    --muted: #94a3b8;
+    --muted: #9ca3af;
     --danger: #ef4444;
 }
 
@@ -30,86 +30,75 @@
 
 body {
     margin: 0;
-    background: radial-gradient(circle at top, #1e293b, #020617);
+    background-color: var(--bg);
     color: var(--text);
 }
 
-.container {
+.wrapper {
     max-width: 1000px;
     margin: auto;
-    padding: 30px;
+    padding: 30px 20px;
 }
 
-.card {
-    background: var(--card);
-    border-radius: 16px;
+.panel {
+    background-color: var(--panel);
+    border-radius: 14px;
     padding: 25px;
     margin-bottom: 25px;
-    box-shadow: 0 15px 40px rgba(0,0,0,.4);
+    box-shadow: 0 10px 30px rgba(0,0,0,.4);
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3 {
     color: var(--accent);
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 label {
     font-weight: 600;
-    display: block;
     margin-top: 15px;
+    display: block;
 }
 
 input {
     width: 100%;
-    padding: 10px 12px;
-    border-radius: 8px;
-    border: 1px solid #334155;
-    background: #020617;
-    color: var(--text);
+    padding: 10px;
     margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid #374151;
+    background-color: #020617;
+    color: var(--text);
 }
 
-.help-text {
+.help {
     font-size: 13px;
     color: var(--muted);
-    margin-top: 6px;
+    margin-top: 5px;
 }
 
 button {
-    margin-top: 15px;
     padding: 12px 18px;
     border-radius: 10px;
     border: none;
     cursor: pointer;
-    background: var(--accent);
+    background-color: var(--accent);
     color: #022c22;
     font-weight: 700;
-    transition: all .2s ease;
+    margin-top: 15px;
 }
 
 button:hover {
-    background: var(--accent-soft);
-    transform: translateY(-2px);
+    opacity: .9;
 }
 
 button.secondary {
-    background: #334155;
+    background-color: #374151;
     color: var(--text);
 }
 
-.logout-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: var(--danger);
-    color: white;
-}
-
-.status {
-    background: #020617;
-    padding: 20px;
-    border-radius: 12px;
-    border-left: 4px solid var(--accent);
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 20px;
 }
 
 .actions {
@@ -118,21 +107,26 @@ button.secondary {
     gap: 10px;
 }
 
-.actions button {
-    background: #334155;
+.logout {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background-color: var(--danger);
     color: white;
 }
 
-.actions button.recommended {
-    background: #f59e0b;
-    color: #020617;
+.status {
+    background-color: #020617;
+    border-left: 4px solid var(--accent);
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .center {
     text-align: center;
 }
 
-#error {
+.error-message {
     color: var(--danger);
     margin-top: 10px;
 }
@@ -142,19 +136,22 @@ button.secondary {
 <body>
 
 <!-- LOGIN -->
-<div id="authContent" class="container">
-    <div class="card center" style="max-width:420px;margin:auto;">
-        <h2>Login Blackjack</h2>
+<div id="authContent" class="wrapper">
+    <div class="panel center" style="max-width:420px;margin:auto;">
+        <h2>Autentificare</h2>
 
         <input type="email" id="loginEmail" placeholder="Email">
         <input type="password" id="loginPassword" placeholder="Parolă">
 
-        <button onclick="login()">Autentificare</button>
+        <button onclick="login()">Login</button>
 
-        <p class="help-text">
-            Cont test:<br>
-            <b>test@gmail.com</b><br>
-            <b>test123</b>
+        <p class="help" style="margin-top:15px;">
+            Dacă ai deja cont, te poți loga folosind datele tale.<br><br>
+            Dacă nu ai cont, trimite un email la<br>
+            <strong>cont.asjb.liis@gmail.com</strong><br><br>
+            sau folosește contul de test:<br>
+            <strong>Email:</strong> test@gmail.com<br>
+            <strong>Parolă:</strong> test123
         </p>
 
         <p id="loginError" class="error-message"></p>
@@ -163,49 +160,66 @@ button.secondary {
 
 <!-- MAIN -->
 <div id="mainContent" style="display:none;">
-<button class="logout-btn" onclick="logout()">Logout</button>
+<button class="logout" onclick="logout()">Logout</button>
 
-<div class="container">
-    <div class="card center">
+<div class="wrapper">
+
+    <div class="panel center">
         <h1>Aplicarea strategiilor în Blackjack</h1>
-        <p class="help-text">Simulare educațională pentru analiză probabilistică</p>
+        <p class="help">Simulare educațională pentru analizarea probabilităților</p>
     </div>
 
-    <div class="card">
-        <h3>Setări joc</h3>
-
-        <label>Bankroll inițial ($)</label>
-        <input type="number" id="initialBankroll">
-        <span class="help-text">Suma cu care începi jocul</span>
-
-        <label>Număr pachete</label>
-        <input type="number" id="numDecks">
-        <span class="help-text">Ex: 6 sau 8</span>
-
-        <label>Procent unitate (%)</label>
-        <input type="number" id="unitPercentage">
-        <span class="help-text">Procent din bankroll pentru o unitate</span>
-
+    <div class="panel">
+        <h3>Setări inițiale</h3>
+        <div class="grid-2">
+            <div>
+                <label>Bankroll inițial ($)</label>
+                <input type="number" id="initialBankroll">
+                <span class="help">Suma cu care începi jocul</span>
+            </div>
+            <div>
+                <label>Număr pachete</label>
+                <input type="number" id="numDecks">
+                <span class="help">Ex: 6 sau 8 pachete</span>
+            </div>
+            <div>
+                <label>Procent unitate (%)</label>
+                <input type="number" id="unitPercentage">
+                <span class="help">Procent din bankroll folosit la pariere</span>
+            </div>
+        </div>
         <button onclick="initializeGame()">Start joc</button>
     </div>
 
-    <div class="card status" id="gameStatus"></div>
+    <div class="panel status" id="gameStatus"></div>
 
     <div id="gameControls" style="display:none;">
-        <div class="card">
+
+        <div class="panel">
             <h3>Dealer</h3>
-            <input type="number" id="dealerCard" placeholder="Carte dealer (2–11)">
-            <button onclick="setDealerCard()">Setează</button>
+            <input type="number" id="dealerCard">
+            <span class="help">Cartea vizibilă a dealerului (As = 11)</span>
+            <button onclick="setDealerCard()">Confirmă</button>
         </div>
 
-        <div class="card">
+        <div class="panel">
             <h3>Cărțile tale</h3>
-            <input type="number" id="playerCard1" placeholder="Carte 1">
-            <input type="number" id="playerCard2" placeholder="Carte 2">
+            <div class="grid-2">
+                <input type="number" id="playerCard1" placeholder="Carte 1">
+                <input type="number" id="playerCard2" placeholder="Carte 2">
+            </div>
+            <span class="help">Cele două cărți inițiale ale jucătorului</span>
             <button onclick="setPlayerCards()">Confirmă</button>
         </div>
 
-        <div class="card">
+        <div class="panel">
+            <h3>Cărțile celorlalți jucători</h3>
+            <input type="number" id="otherPlayersCard">
+            <span class="help">Influențează calculul running count</span>
+            <button onclick="addOtherPlayerCard()">Adaugă carte</button>
+        </div>
+
+        <div class="panel">
             <h3>Acțiuni recomandate</h3>
             <div class="actions" id="actionButtons" style="display:none;">
                 <button id="hitButton" onclick="hit()">Hit</button>
@@ -213,18 +227,21 @@ button.secondary {
                 <button id="doubleButton" onclick="double()">Double</button>
                 <button id="splitButton" onclick="split()">Split</button>
             </div>
+            <span class="help">Butonul evidențiat indică strategia optimă</span>
         </div>
 
-        <div class="card">
-            <h3>Dealer final</h3>
+        <div class="panel">
+            <h3>Cărțile finale ale dealerului</h3>
             <input type="number" id="dealerFinalCard">
+            <span class="help">Introdu cărțile dealerului până la final</span>
             <button onclick="addDealerFinalCard()">Adaugă carte</button>
             <button onclick="finishHand()">Finalizează mâna</button>
         </div>
-    </div>
-</div>
-</div>
 
+    </div>
+
+</div>
+</div>
     <script>
 
 	// Esti un terminat daca imi copiezi codul
