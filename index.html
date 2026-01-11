@@ -111,6 +111,12 @@
             margin: 10px 0;
             display: none;
         }
+		.help-text {
+    font-size: 13px;
+    color: #cccccc;
+    margin-top: 6px;
+    display: block;
+	}
     </style>
 </head>
 <body>
@@ -168,11 +174,20 @@
             
             <div class="input-group">
                 <label>Initial Bankroll: $</label>
-                <input type="number" id="initialBankroll" min="1">
+				<input type="number" id="initialBankroll" min="1">
+				<span class="help-text">
+   					 Suma de bani cu care începi jocul.
+				</span>
                 <label>Number of Decks: </label>
-                <input type="number" id="numDecks" min="1">
-		<label>Percentage Used: </label>
-    		<input type="number" id="unitPercentage" min="1" max="100" step="1">
+				<input type="number" id="numDecks" min="1">
+				<span class="help-text">
+   					 Numărul de pachete de cărți folosite (ex: 6 sau 8).
+				</span>
+				<label>Percentage Used: </label>
+				<input type="number" id="unitPercentage" min="1" max="100" step="1">
+				<span class="help-text">
+    				Procent din bankroll folosit pentru unitatea de pariere.
+				</span>
                 <button onclick="initializeGame()">Start Game</button>
             </div>
 
@@ -181,21 +196,30 @@
             <div id="gameControls" style="display: none;">
                 <div class="input-group">
                     <h3>🎭 Dealer's Card</h3>
-                    <input type="number" id="dealerCard" class="card-input" min="2" max="11">
-                    <button onclick="setDealerCard()">Set Dealer Card</button>
+					<input type="number" id="dealerCard" class="card-input" min="2" max="11">
+					<span class="help-text">
+    					Introdu cartea vizibilă a dealerului (11 = As).
+					</span>
+					<button onclick="setDealerCard()">Set Dealer Card</button>
                 </div>
 
                 <div class="input-group">
                     <h3>🎮 Your Cards</h3>
-                    <input type="number" id="playerCard1" class="card-input" min="2" max="11">
-                    <input type="number" id="playerCard2" class="card-input" min="2" max="11">
-                    <button onclick="setPlayerCards()">Set Player Cards</button>
+					<input type="number" id="playerCard1" class="card-input" min="2" max="11">
+					<input type="number" id="playerCard2" class="card-input" min="2" max="11">
+					<span class="help-text">
+    					Introdu cele două cărți inițiale ale jucătorului.
+					</span>
+					<button onclick="setPlayerCards()">Set Player Cards</button>
                 </div>
 
                 <div class="input-group">
                     <h3>👥 Other Players' Cards</h3>
                     <input type="number" id="otherPlayersCard" class="card-input" min="2" max="11">
                    <!-- <div class="action-group"> -->
+					<span class="help-text">
+    					Introdu cărțile celorlalți jucători pentru calculul count-ului.
+					</span>
                         <button onclick="addOtherPlayerCard()">Add Card</button>
                    <!-- <button onclick="finishOtherPlayers()">Finish Other Players</button> -->
                    <!-- <button onclick="resetOtherPlayers()">Reset Other Players</button> -->
@@ -203,6 +227,9 @@
                 </div>
 
                 <div id="actionButtons" style="display: none;" class="action-group">
+					<span class="help-text">
+    					Butoanele indică acțiunile posibile conform strategiei optime.
+					</span>
                     <button onclick="hit()" id="hitButton">Hit</button>
                     <button onclick="stand()" id="standButton">Stand</button>
                     <button onclick="double()" id="doubleButton">Double</button>
@@ -223,9 +250,15 @@
                 <div class="input-group">
                     <h3>🎭 Dealer's Final Cards</h3>
                     <input type="number" id="dealerFinalCard" class="card-input" min="2" max="11">
+					<span class="help-text">
+   						 Introdu cărțile dealerului până la finalul mâinii.
+					</span>
                     <div class="action-group">
                         <button onclick="addDealerFinalCard()">Add Card</button>
                         <button onclick="finishHand()">Finish Hand</button>
+						<span class="help-text">
+   							 Finalizează mâna și calculează rezultatul.
+						</span>
                     </div>
                 </div>
             </div>
