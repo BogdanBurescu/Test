@@ -137,6 +137,10 @@ button.secondary {
 
 <!-- LOGIN -->
 <div id="authContent" class="wrapper">
+	<div class="language-switch">
+    <button onclick="setLanguage('ro')">Română</button>
+    <button onclick="setLanguage('en')">English</button>
+	</div>
     <div class="panel center" style="max-width:420px;margin:auto;">
         <h2>Autentificare</h2>
 
@@ -245,7 +249,56 @@ button.secondary {
 </div>
     <script>
 
-	// Esti un terminat daca imi copiezi codul
+	const messages = {
+    ro: {
+        invalidPercentage: "Te rog introdu un procent valid (1-100).",
+        invalidBankroll: "Te rog introdu valori valide pentru bankroll și numărul de pachete.",
+        currentBankroll: "Bankroll curent",
+        runningCount: "Count curent",
+        trueCount: "True Count",
+        recommendedBet: "Miza recomandată",
+        enterHitCard: "Introdu cartea ta",
+        bust: "Ai pierdut!",
+        standingWith: "Rămâi cu",
+        enterDoubleCard: "Introdu cartea pentru double",
+        bustOnDouble: "Ai pierdut la double!",
+        standingAfterDouble: "Rămâi cu",
+        enterSplitCard: "Introdu cartea pentru mâna split",
+        bustOnSplit: "Ai pierdut la mâna split!",
+        recommendedAction: "Acțiune recomandată",
+        splitHand: "Mâna split",
+        pushes: "Egal!",
+        dealerBusts: "Dealer-ul a pierdut! Ai câștigat!",
+        youWin: "Ai câștigat!",
+        takeInsurance: "Ia asigurare!",
+        dontTakeInsurance: "Nu lua asigurare!"
+    },
+    en: {
+        invalidPercentage: "Please enter a valid percentage (1-100).",
+        invalidBankroll: "Please enter valid values for bankroll and number of decks",
+        currentBankroll: "Current Bankroll",
+        runningCount: "Running Count",
+        trueCount: "True Count",
+        recommendedBet: "Recommended Bet",
+        enterHitCard: "Enter your hit card:",
+        bust: "Bust!",
+        standingWith: "Standing with",
+        enterDoubleCard: "Enter your double card:",
+        bustOnDouble: "Bust on double!",
+        standingAfterDouble: "Standing with",
+        enterSplitCard: "Enter card for split hand",
+        bustOnSplit: "Bust on split hand!",
+        recommendedAction: "Recommended action for hand",
+        splitHand: "Split hand",
+        pushes: "Pushes",
+        dealerBusts: "Dealer busts! You win!",
+        youWin: "You win!",
+        takeInsurance: "Take insurance!",
+        dontTakeInsurance: "Don't take insurance!"
+    }
+};
+
+let currentLang = 'ro'; // limba implicită
 	    
         let state = {
             bankroll: 0,
