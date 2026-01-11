@@ -278,12 +278,12 @@ button.secondary {
         	const percentageValue = state.bankroll * (unitPercentage / 100);
         	state.unit = Math.floor(percentageValue / 10) * 10;
     	} else {
-        	alert("Please enter a valid percentage (1-100).");
+        	alert("Te rugăm să introduci un procent valid (1–100).");
         	return;
     	}
             
             if (!state.bankroll || !state.numDecks) {
-                alert('Please enter valid values for bankroll and number of decks');
+                alert('Te rugăm să introduci valori valide pentru bankroll și numărul de pachete.');
                 return;
             }
 
