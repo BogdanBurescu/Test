@@ -1,269 +1,229 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
-    <meta charset="UTF-8">
-    <title>Aplicarea strategiilor in jocul de Blackjack</title>
-    <meta name="description" content="Proiect pentru analizarea probabilitatilor">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
-    
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #1a1a1a;
-            color: #ffffff;
-        }
-        .container {
-            background-color: #2d2d2d;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-        .input-group {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #3d3d3d;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        .input-group:hover {
-            background-color: #454545;
-        }
-        input[type="number"], 
-        input[type="password"],
-        input[type="email"] {
-            background-color: #2d2d2d;
-            border: 1px solid #555;
-            color: #fff;
-            padding: 8px;
-            border-radius: 4px;
-            margin: 0 10px;
-            width: 200px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin: 5px;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-        button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .status {
-            margin: 20px 0;
-            padding: 20px;
-            background-color: #3d3d3d;
-            border-radius: 8px;
-            border-left: 4px solid #4CAF50;
-        }
-        h1, h2, h3, h4 {
-            color: #4CAF50;
-            margin-bottom: 15px;
-        }
-        #loginForm, #registerForm {
-            max-width: 400px;
-            margin: 50px auto;
-            text-align: center;
-        }
-        .auth-container {
-            background-color: #2d2d2d;
-            padding: 30px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .auth-switch {
-            color: #4CAF50;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        #mainContent {
-            display: none;
-        }
-        #authContent {
-            display: block;
-        }
-        .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #ff6b6b;
-        }
-        .error-message {
-            color: #ff6b6b;
-            margin: 10px 0;
-            display: none;
-        }
-		.help-text {
-    font-size: 13px;
-    color: #cccccc;
-    margin-top: 6px;
+<meta charset="UTF-8">
+<title>Strategii Blackjack</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+
+<style>
+:root {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --accent: #22c55e;
+    --accent-soft: #16a34a;
+    --text: #e5e7eb;
+    --muted: #94a3b8;
+    --danger: #ef4444;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    margin: 0;
+    background: radial-gradient(circle at top, #1e293b, #020617);
+    color: var(--text);
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 30px;
+}
+
+.card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.4);
+}
+
+h1, h2, h3, h4 {
+    color: var(--accent);
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: 600;
     display: block;
-	}
-    </style>
+    margin-top: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background: #020617;
+    color: var(--text);
+    margin-top: 6px;
+}
+
+.help-text {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+button {
+    margin-top: 15px;
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background: var(--accent);
+    color: #022c22;
+    font-weight: 700;
+    transition: all .2s ease;
+}
+
+button:hover {
+    background: var(--accent-soft);
+    transform: translateY(-2px);
+}
+
+button.secondary {
+    background: #334155;
+    color: var(--text);
+}
+
+.logout-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--danger);
+    color: white;
+}
+
+.status {
+    background: #020617;
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 4px solid var(--accent);
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
+    gap: 10px;
+}
+
+.actions button {
+    background: #334155;
+    color: white;
+}
+
+.actions button.recommended {
+    background: #f59e0b;
+    color: #020617;
+}
+
+.center {
+    text-align: center;
+}
+
+#error {
+    color: var(--danger);
+    margin-top: 10px;
+}
+</style>
 </head>
+
 <body>
-    <div id="authContent">
-        <div id="loginForm">
-            <div class="auth-container">
-                <h2>Login to Aplicarea strategiilor in jocul de Blackjack</h2>
-                <div class="form-group">
-                    <input type="email" id="loginEmail" placeholder="Email" required>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="loginPassword" placeholder="Password" required>
-                </div>
-                <button onclick="login()">Login</button>
 
-				<p style="margin-top: 15px; font-size: 14px; color: #cccccc;">
-    			Dacă ai deja cont, te poți loga folosind datele tale.<br><br>
-    			Dacă nu ai cont, trimite un email la 
-    			<strong>cont.asjb.liis@gmail.com</strong><br>
-    			sau folosește contul de test:<br>
-    			<strong>Email:</strong> test@gmail.com<br>
-    			<strong>Parolă:</strong> test123
-				</p>
+<!-- LOGIN -->
+<div id="authContent" class="container">
+    <div class="card center" style="max-width:420px;margin:auto;">
+        <h2>Login Blackjack</h2>
 
-				<p class="error-message" id="loginError"></p>
-                <!-- <p>Don't have an account? <span class="auth-switch" onclick="toggleAuth()">Register</span></p> -->
-            </div>
-        </div>
+        <input type="email" id="loginEmail" placeholder="Email">
+        <input type="password" id="loginPassword" placeholder="Parolă">
 
-	<!-- 
-        <div id="registerForm" style="display: none;">
-            <div class="auth-container">
-                <h2>Register for Atesta</h2>
-                <div class="form-group">
-                    <input type="email" id="registerEmail" placeholder="Email" required>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="registerPassword" placeholder="Password" required>
-                </div>
-                <button onclick="register()">Register</button>
-                <p class="error-message" id="registerError"></p>
-                <p>Already have an account? <span class="auth-switch" onclick="toggleAuth()">Login</span></p>
-            </div>
-        </div>
-	-->
+        <button onclick="login()">Autentificare</button>
+
+        <p class="help-text">
+            Cont test:<br>
+            <b>test@gmail.com</b><br>
+            <b>test123</b>
+        </p>
+
+        <p id="loginError" class="error-message"></p>
     </div>
-    
+</div>
 
-    <div id="mainContent">
-        <button class="logout-btn" onclick="logout()">Logout</button>
-        <div class="container">
+<!-- MAIN -->
+<div id="mainContent" style="display:none;">
+<button class="logout-btn" onclick="logout()">Logout</button>
 
-        <!-- Main Content (Initially Hidden) -->
-           <h1>Aplicarea strategiilor in jocul de blackjack</h1>
-            
-            <div class="input-group">
-                <label>Initial Bankroll: $</label>
-				<input type="number" id="initialBankroll" min="1">
-				<span class="help-text">
-   					 Suma de bani cu care începi jocul.
-				</span>
-                <label>Number of Decks: </label>
-				<input type="number" id="numDecks" min="1">
-				<span class="help-text">
-   					 Numărul de pachete de cărți folosite (ex: 6 sau 8).
-				</span>
-				<label>Percentage Used: </label>
-				<input type="number" id="unitPercentage" min="1" max="100" step="1">
-				<span class="help-text">
-    				Procent din bankroll folosit pentru unitatea de pariere.
-				</span>
-                <button onclick="initializeGame()">Start Game</button>
+<div class="container">
+    <div class="card center">
+        <h1>Aplicarea strategiilor în Blackjack</h1>
+        <p class="help-text">Simulare educațională pentru analiză probabilistică</p>
+    </div>
+
+    <div class="card">
+        <h3>Setări joc</h3>
+
+        <label>Bankroll inițial ($)</label>
+        <input type="number" id="initialBankroll">
+        <span class="help-text">Suma cu care începi jocul</span>
+
+        <label>Număr pachete</label>
+        <input type="number" id="numDecks">
+        <span class="help-text">Ex: 6 sau 8</span>
+
+        <label>Procent unitate (%)</label>
+        <input type="number" id="unitPercentage">
+        <span class="help-text">Procent din bankroll pentru o unitate</span>
+
+        <button onclick="initializeGame()">Start joc</button>
+    </div>
+
+    <div class="card status" id="gameStatus"></div>
+
+    <div id="gameControls" style="display:none;">
+        <div class="card">
+            <h3>Dealer</h3>
+            <input type="number" id="dealerCard" placeholder="Carte dealer (2–11)">
+            <button onclick="setDealerCard()">Setează</button>
+        </div>
+
+        <div class="card">
+            <h3>Cărțile tale</h3>
+            <input type="number" id="playerCard1" placeholder="Carte 1">
+            <input type="number" id="playerCard2" placeholder="Carte 2">
+            <button onclick="setPlayerCards()">Confirmă</button>
+        </div>
+
+        <div class="card">
+            <h3>Acțiuni recomandate</h3>
+            <div class="actions" id="actionButtons" style="display:none;">
+                <button id="hitButton" onclick="hit()">Hit</button>
+                <button id="standButton" onclick="stand()">Stand</button>
+                <button id="doubleButton" onclick="double()">Double</button>
+                <button id="splitButton" onclick="split()">Split</button>
             </div>
+        </div>
 
-            <div class="status" id="gameStatus"></div>
-            
-            <div id="gameControls" style="display: none;">
-                <div class="input-group">
-                    <h3>🎭 Dealer's Card</h3>
-					<input type="number" id="dealerCard" class="card-input" min="2" max="11">
-					<span class="help-text">
-    					Introdu cartea vizibilă a dealerului (As = 11).
-					</span>
-					<button onclick="setDealerCard()">Set Dealer Card</button>
-                </div>
-
-                <div class="input-group">
-                    <h3>🎮 Your Cards</h3>
-					<input type="number" id="playerCard1" class="card-input" min="2" max="11">
-					<input type="number" id="playerCard2" class="card-input" min="2" max="11">
-					<span class="help-text">
-    					Introdu cele două cărți inițiale ale jucătorului.
-					</span>
-					<button onclick="setPlayerCards()">Set Player Cards</button>
-                </div>
-
-                <div class="input-group">
-                    <h3>👥 Other Players' Cards</h3>
-                    <input type="number" id="otherPlayersCard" class="card-input" min="2" max="11">
-                   <!-- <div class="action-group"> -->
-					<span class="help-text">
-    					Introdu cărțile celorlalți jucători pentru calculul count-ului.
-					</span>
-                        <button onclick="addOtherPlayerCard()">Add Card</button>
-                   <!-- <button onclick="finishOtherPlayers()">Finish Other Players</button> -->
-                   <!-- <button onclick="resetOtherPlayers()">Reset Other Players</button> -->
-                   <!-- </div> -->
-                </div>
-
-                <div id="actionButtons" style="display: none;" class="action-group">
-					<span class="help-text">
-    					Butoanele indică acțiunile posibile conform strategiei optime.
-					</span>
-                    <button onclick="hit()" id="hitButton">Hit</button>
-                    <button onclick="stand()" id="standButton">Stand</button>
-                    <button onclick="double()" id="doubleButton">Double</button>
-                    <button onclick="split()" id="splitButton">Split</button>
-                </div>
-
-                <div id="splitControls" style="display: none;" class="split-hands">
-                    <div class="split-hand">
-                        <h4>First Hand</h4>
-                        <button onclick="hitSplit(1)">Add Card</button>
-                    </div>
-                    <div class="split-hand">
-                        <h4>Second Hand</h4>
-                        <button onclick="hitSplit(2)">Add Card</button>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <h3>🎭 Dealer's Final Cards</h3>
-                    <input type="number" id="dealerFinalCard" class="card-input" min="2" max="11">
-					<span class="help-text">
-   						 Introdu cărțile dealerului până la finalul mâinii.
-					</span>
-                    <div class="action-group">
-                        <button onclick="addDealerFinalCard()">Add Card</button>
-                        <button onclick="finishHand()">Finish Hand</button>
-						<span class="help-text">
-   							 Finalizează mâna și calculează rezultatul.
-						</span>
-                    </div>
-                </div>
-            </div>
+        <div class="card">
+            <h3>Dealer final</h3>
+            <input type="number" id="dealerFinalCard">
+            <button onclick="addDealerFinalCard()">Adaugă carte</button>
+            <button onclick="finishHand()">Finalizează mâna</button>
         </div>
     </div>
+</div>
+</div>
 
     <script>
 
