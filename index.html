@@ -134,17 +134,9 @@ button.secondary {
 </head>
 
 <body>
-<!-- Language buttons -->
-    <div class="language-switch">
-        <button onclick="setLanguage('ro')">Română</button>
-        <button onclick="setLanguage('en')">English</button>
-    </div>
+
 <!-- LOGIN -->
 <div id="authContent" class="wrapper">
-	<div class="language-switch">
-    <button onclick="setLanguage('ro')">Română</button>
-    <button onclick="setLanguage('en')">English</button>
-	</div>
     <div class="panel center" style="max-width:420px;margin:auto;">
         <h2>Autentificare</h2>
 
@@ -168,159 +160,92 @@ button.secondary {
 
 <!-- MAIN -->
 <div id="mainContent" style="display:none;">
-<button class="logout-btn language-text" data-msg="logoutBtn" onclick="logout()"></button>
-        <div class="container">
-            <h1 class="language-text" data-msg="mainTitle"></h1>
+<button class="logout" onclick="logout()">Logout</button>
 
-            <div class="input-group">
-                <label class="language-text" data-msg="initialBankroll"></label>
-                <input type="number" id="initialBankroll" min="1">
-                <label class="language-text" data-msg="numDecks"></label>
-                <input type="number" id="numDecks" min="1">
-                <label class="language-text" data-msg="unitPercentage"></label>
-                <input type="number" id="unitPercentage" min="1" max="100" step="1">
-                <button onclick="initializeGame()" class="language-text" data-msg="startGame"></button>
+<div class="wrapper">
+
+    <div class="panel center">
+        <h1>Aplicarea strategiilor în Blackjack</h1>
+        <p class="help">Simulare educațională pentru analizarea probabilităților</p>
+    </div>
+
+    <div class="panel">
+        <h3>Setări inițiale</h3>
+        <div class="grid-2">
+            <div>
+                <label>Bankroll inițial ($)</label>
+                <input type="number" id="initialBankroll">
+                <span class="help">Suma de bani cu care începi jocul</span>
             </div>
-
-            <div class="status" id="gameStatus"></div>
-
-            <!-- Dealer card -->
-            <div class="input-group">
-                <h3>🎭 <span class="language-text" data-msg="dealerCard"></span></h3>
-                <input type="number" id="dealerCard" class="card-input" min="2" max="11">
-                <span class="help-text language-text" data-msg="dealerCardHelp"></span>
-                <button onclick="setDealerCard()" class="language-text" data-msg="setCard"></button>
+            <div>
+                <label>Număr pachete</label>
+                <input type="number" id="numDecks">
+                <span class="help">Ex: 6 sau 8 pachete</span>
             </div>
-
-            <!-- Player cards -->
-            <div class="input-group">
-                <h3>🎮 <span class="language-text" data-msg="playerCards"></span></h3>
-                <input type="number" id="playerCard1" class="card-input" min="2" max="11">
-                <input type="number" id="playerCard2" class="card-input" min="2" max="11">
-                <span class="help-text language-text" data-msg="playerCardsHelp"></span>
-                <button onclick="setPlayerCards()" class="language-text" data-msg="setCard"></button>
-            </div>
-
-            <!-- Other players cards -->
-            <div class="input-group">
-                <h3>👥 <span class="language-text" data-msg="otherPlayersCards"></span></h3>
-                <input type="number" id="otherPlayersCard" class="card-input" min="2" max="11">
-                <span class="help-text language-text" data-msg="otherPlayersHelp"></span>
-                <button onclick="addOtherPlayerCard()" class="language-text" data-msg="addCard"></button>
-            </div>
-
-            <!-- Action buttons -->
-            <div id="actionButtons" style="display: none;">
-                <span class="help-text language-text" data-msg="actionHelp"></span>
-                <button onclick="hit()" id="hitButton"></button>
-                <button onclick="stand()" id="standButton"></button>
-                <button onclick="double()" id="doubleButton"></button>
-                <button onclick="split()" id="splitButton"></button>
+            <div>
+                <label>Procent unitate (%)</label>
+                <input type="number" id="unitPercentage">
+                <span class="help">Procent din bankroll folosit la mâna jucată</span>
             </div>
         </div>
+        <button onclick="initializeGame()">Start joc</button>
     </div>
+
+    <div class="panel status" id="gameStatus"></div>
+
+    <div id="gameControls" style="display:none;">
+
+        <div class="panel">
+            <h3>Dealer</h3>
+            <input type="number" id="dealerCard">
+            <button onclick="setDealerCard()">Confirmă</button>
+			<span class="help">Cartea vizibilă a dealerului (As = 11)</span>
+        </div>
+
+        <div class="panel">
+            <h3>Cărțile tale</h3>
+            <div class="grid-2">
+                <input type="number" id="playerCard1" placeholder="Carte 1">
+                <input type="number" id="playerCard2" placeholder="Carte 2">
+            </div>
+            <button onclick="setPlayerCards()">Confirmă</button>
+			<span class="help">Cele două cărți inițiale ale jucătorului</span>
+        </div>
+
+        <div class="panel">
+            <h3>Cărțile celorlalți jucători</h3>
+            <input type="number" id="otherPlayersCard">
+			<button onclick="addOtherPlayerCard()">Adaugă carte</button>
+            <span class="help">Influențează calculul running count</span>
+        </div>
+
+        <div class="panel">
+            <h3>Acțiuni recomandate</h3>
+            <div class="actions" id="actionButtons" style="display:none;">
+                <button id="hitButton" onclick="hit()">Hit</button>
+                <button id="standButton" onclick="stand()">Stand</button>
+                <button id="doubleButton" onclick="double()">Double</button>
+                <button id="splitButton" onclick="split()">Split</button>
+            </div>
+            <span class="help">Butonul evidențiat indică strategia optimă</span>
+        </div>
+
+        <div class="panel">
+            <h3>Cărțile finale ale dealerului</h3>
+            <input type="number" id="dealerFinalCard">
+            
+            <button onclick="addDealerFinalCard()">Adaugă carte</button>
+            <button onclick="finishHand()">Finalizează mâna</button>
+			<span class="help">Introdu cărțile dealerului până la final</span>
+        </div>
+
+    </div>
+
+</div>
+</div>
     <script>
 
-	const messages = {
-            ro: {
-                loginTitle: "Login pentru Blackjack",
-                loginBtn: "Login",
-                loginInfo: "Dacă ai deja cont, te poți loga folosind datele tale.\nDacă nu ai cont, trimite un email la cont.asjb.liis@gmail.com sau folosește contul de test:\nEmail: test@gmail.com\nParolă: test123",
-                logoutBtn: "Logout",
-                mainTitle: "Aplicarea strategiilor în jocul de Blackjack",
-                initialBankroll: "Bankroll inițial:",
-                numDecks: "Număr de pachete:",
-                unitPercentage: "Procent unitate:",
-                startGame: "Începe jocul",
-                dealerCard: "Carte Dealer",
-                dealerCardHelp: "Introduceți cartea vizibilă a dealerului (As = 11).",
-                playerCards: "Cărțile tale",
-                playerCardsHelp: "Introduceți cele două cărți inițiale ale jucătorului.",
-                otherPlayersCards: "Cărțile celorlalți jucători",
-                otherPlayersHelp: "Introduceți cărțile celorlalți jucători pentru count.",
-                addCard: "Adaugă carte",
-                setCard: "Setează cartea",
-                actionHelp: "Butoanele indică acțiunile posibile conform strategiei optime.",
-                hit: "Hit",
-                stand: "Stand",
-                double: "Double",
-                split: "Split",
-                invalidPercentage: "Te rog introdu un procent valid (1-100).",
-                invalidBankroll: "Te rog introdu valori valide pentru bankroll și numărul de pachete.",
-                enterHitCard: "Introduceți cartea pentru hit:",
-                bust: "Ai pierdut!",
-                standingWith: "Rămâi cu",
-                enterDoubleCard: "Introduceți cartea pentru double:",
-                bustOnDouble: "Ai pierdut la double!",
-                standingAfterDouble: "Rămâi cu",
-                enterSplitCard: "Introduceți cartea pentru mâna split:",
-                bustOnSplit: "Ai pierdut la mâna split!",
-                recommendedAction: "Acțiune recomandată",
-                splitHand: "Mâna split",
-                pushes: "Egal!",
-                dealerBusts: "Dealer-ul a pierdut! Ai câștigat!",
-                youWin: "Ai câștigat!",
-                takeInsurance: "Ia asigurare!",
-                dontTakeInsurance: "Nu lua asigurare!"
-            },
-            en: {
-                loginTitle: "Login for Blackjack",
-                loginBtn: "Login",
-                loginInfo: "If you already have an account, login with your credentials.\nIf not, contact cont.asjb.liis@gmail.com or use the test account:\nEmail: test@gmail.com\nPassword: test123",
-                logoutBtn: "Logout",
-                mainTitle: "Applying Blackjack Strategies",
-                initialBankroll: "Initial Bankroll:",
-                numDecks: "Number of Decks:",
-                unitPercentage: "Unit Percentage:",
-                startGame: "Start Game",
-                dealerCard: "Dealer Card",
-                dealerCardHelp: "Enter the dealer's visible card (Ace = 11).",
-                playerCards: "Your Cards",
-                playerCardsHelp: "Enter your two starting cards.",
-                otherPlayersCards: "Other Players' Cards",
-                otherPlayersHelp: "Enter other players' cards for counting.",
-                addCard: "Add Card",
-                setCard: "Set Card",
-                actionHelp: "Buttons indicate possible actions based on optimal strategy.",
-                hit: "Hit",
-                stand: "Stand",
-                double: "Double",
-                split: "Split",
-                invalidPercentage: "Please enter a valid percentage (1-100).",
-                invalidBankroll: "Please enter valid values for bankroll and number of decks",
-                enterHitCard: "Enter your hit card:",
-                bust: "Bust!",
-                standingWith: "Standing with",
-                enterDoubleCard: "Enter your double card:",
-                bustOnDouble: "Bust on double!",
-                standingAfterDouble: "Standing with",
-                enterSplitCard: "Enter card for split hand:",
-                bustOnSplit: "Bust on split hand!",
-                recommendedAction: "Recommended action for hand",
-                splitHand: "Split hand",
-                pushes: "Pushes",
-                dealerBusts: "Dealer busts! You win!",
-                youWin: "You win!",
-                takeInsurance: "Take insurance!",
-                dontTakeInsurance: "Don't take insurance!"
-            }
-        };
-
-        let currentLang = 'ro'; // limba implicită
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            updateTexts();
-        }
-
-        function updateTexts() {
-            document.querySelectorAll('.language-text').forEach(el => {
-                const key = el.dataset.msg;
-                if(messages[currentLang][key]) {
-                    el.textContent = messages[currentLang][key];
-                }
-            });
-        }
+	// Esti un terminat daca imi copiezi codul
 	    
         let state = {
             bankroll: 0,
@@ -379,10 +304,10 @@ button.secondary {
             state.currentBet = recommendedBet;
 
             document.getElementById('gameStatus').innerHTML = `
-                <strong>Current Bankroll:</strong> $${state.bankroll.toLocaleString()}<br>
-                <strong>Running Count:</strong> ${state.cardCount.toFixed(2)}<br>
-                <strong>True Count:</strong> ${trueCount.toFixed(2)}<br>
-                <strong>Recommended Bet:</strong> $${recommendedBet.toLocaleString()}
+                <strong>Bankroll curent:</strong> $${state.bankroll.toLocaleString()}<br>
+				<strong>Contor curent:</strong> ${state.cardCount.toFixed(2)}<br>
+				<strong>Contor adevărat:</strong> ${trueCount.toFixed(2)}<br>
+				<strong>Miza recomandată:</strong> $${recommendedBet.toLocaleString()}
             `;
         }
 
@@ -510,14 +435,14 @@ button.secondary {
         }
 
         function hit() {
-            const newCard = parseInt(prompt("Enter your hit card:"));
+            const newCard = parseInt(prompt("Introdu cartea ta:"));
             if (isValidCard(newCard)) {
                 state.playerCards.push(newCard);
                 updateCount(newCard);
                 const total = calculateTotal(state.playerCards);
                 
                 if (total > 21) {
-                    alert("Bust!");
+                    alert("Ai pierdut mâna!");
                     state.bankroll -= state.currentBet;
                     updateGameStatus();
                     return;
@@ -530,11 +455,11 @@ button.secondary {
         }
 
         function stand() {
-            alert("Standing with " + calculateTotal(state.playerCards));
+            alert("Stai cu " + calculateTotal(state.playerCards));
         }
 
         function double() {
-            const newCard = parseInt(prompt("Enter your double card:"));
+            const newCard = parseInt(prompt("Introdu cartea ta după dublare:"));
             if (isValidCard(newCard)) {
                 state.playerCards.push(newCard);
                 updateCount(newCard);
@@ -542,13 +467,13 @@ button.secondary {
                 const total = calculateTotal(state.playerCards);
                 
                 if (total > 21) {
-                    alert("Bust on double!");
+                    alert("Ai pierdut la dublare!");
                     state.bankroll -= state.currentBet * 2;
                     updateGameStatus();
                     return;
                 }
                 
-                alert("Standing with " + total + " after double");
+                alert("Stai cu totalul de " + total + " după dublare");
             }
         }
 
@@ -560,21 +485,21 @@ button.secondary {
         }
 
         function hitSplit(hand) {
-            const newCard = parseInt(prompt(`Enter card for split hand ${hand}:`));
+            const newCard = parseInt(prompt(`Introdu cartea pentru mâna împărțită ${hand}:`));
             if (isValidCard(newCard)) {
                 state.splitHands[hand-1].push(newCard);
                 updateCount(newCard);
                 const total = calculateTotal(state.splitHands[hand-1]);
                 
                 if (total > 21) {
-                    alert(`Bust on split hand ${hand}!`);
+                    alert(`Ai pierdut pe mâna împărțită ${hand}!`);
                     state.bankroll -= state.currentBet;
                     updateGameStatus();
                     return;
                 }
 
                 const action = calculateAction(state.splitHands[hand-1], state.dealerUpCard);
-                alert(`Recommended action for hand ${hand}: ${action}`);
+                alert(`Acțiunea recomandată pentru mâna ${hand}: ${action}`);
             }
         }
 
@@ -586,27 +511,27 @@ button.secondary {
                 state.splitHands.forEach((hand, index) => {
                     const splitTotal = calculateTotal(hand);
                     if (splitTotal <= 21 && (dealerTotal > 21 || splitTotal > dealerTotal)) {
-                        alert(`Split hand ${index + 1} wins!`);
+                        alert(`Mâna împărțită ${index + 1} câștigă!`);
                         state.bankroll += state.currentBet;
                     } else if (splitTotal <= 21 && splitTotal === dealerTotal) {
-                        alert(`Split hand ${index + 1} pushes!`);
+                        alert(`Mâna împărțită ${index + 1} egalitate!`);
                     } else if (splitTotal <= 21) {
-                        alert(`Split hand ${index + 1} loses!`);
+                        alert(`Mâna împărțită ${index + 1} pierde!`);
                         state.bankroll -= state.currentBet;
                     }
                 });
             } else {
                 if (playerTotal <= 21) {
                     if (dealerTotal > 21) {
-                        alert("Dealer busts! You win!");
+                        alert("Dealer-ul depășește 21! Ai câștigat!");
                         state.bankroll += state.isDoubled ? state.currentBet * 2 : state.currentBet;
                     } else if (playerTotal > dealerTotal) {
-                        alert("You win!");
+                        alert("Ai câștigat!");
                         state.bankroll += state.isDoubled ? state.currentBet * 2 : state.currentBet;
                     } else if (playerTotal === dealerTotal) {
-                        alert("Push!");
+                        alert("Egal!");
                     } else {
-                        alert("Dealer wins!");
+                        alert("Dealer-ul a câștigat!");
                         state.bankroll -= state.isDoubled ? state.currentBet * 2 : state.currentBet;
                     }
                 }
@@ -759,7 +684,7 @@ button.secondary {
                 document.getElementById('splitButton').classList.add('disabled');
             }
 
-            let recommendationText = "Recommended action: " + action.toUpperCase();
+            let recommendationText = "Acțiunea recomandată: " + action.toUpperCase();
             
             if (action === 'hit') {
                 document.getElementById('hitButton').style.backgroundColor = '#ff9800';
@@ -842,3 +767,4 @@ button.secondary {
     </script>
 </body>
 	</html>
+
