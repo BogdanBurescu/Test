@@ -1,131 +1,174 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <meta charset="UTF-8">
-    <title>Aplicarea strategiilor în Blackjack</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #1a1a1a;
-            color: #ffffff;
-        }
-        .container {
-            background-color: #2d2d2d;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-        .input-group {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #3d3d3d;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        .input-group:hover {
-            background-color: #454545;
-        }
-        input[type="number"], 
-        input[type="password"],
-        input[type="email"] {
-            background-color: #2d2d2d;
-            border: 1px solid #555;
-            color: #fff;
-            padding: 8px;
-            border-radius: 4px;
-            margin: 0 10px;
-            width: 200px;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin: 5px;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-        button:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .status {
-            margin: 20px 0;
-            padding: 20px;
-            background-color: #3d3d3d;
-            border-radius: 8px;
-            border-left: 4px solid #4CAF50;
-        }
-        h1, h2, h3, h4 {
-            color: #4CAF50;
-            margin-bottom: 15px;
-        }
-        .auth-container {
-            background-color: #2d2d2d;
-            padding: 30px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-        .auth-switch {
-            color: #4CAF50;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-        #mainContent { display: none; }
-        #authContent { display: block; }
+<meta charset="UTF-8">
+<title>Aplicarea strategiilor în Blackjack</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #ff6b6b;
-        }
-        .error-message { color: #ff6b6b; margin: 10px 0; display: none; }
-        .help-text { font-size: 13px; color: #cccccc; margin-top: 6px; display: block; }
-        .language-switch { text-align: right; margin-bottom: 10px; }
-        .language-switch button { text-transform: none; font-weight: normal; padding: 5px 10px; background-color: #555; }
-        .language-switch button:hover { background-color: #777; }
-    </style>
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+
+<style>
+:root {
+    --bg: #111827;
+    --panel: #1f2933;
+    --panel-light: #273244;
+    --accent: #22c55e;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --danger: #ef4444;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--text);
+}
+
+.wrapper {
+    max-width: 1000px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.panel {
+    background-color: var(--panel);
+    border-radius: 14px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.4);
+}
+
+h1, h2, h3 {
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+label {
+    font-weight: 600;
+    margin-top: 15px;
+    display: block;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid #374151;
+    background-color: #020617;
+    color: var(--text);
+}
+
+.help {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+button {
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: var(--accent);
+    color: #022c22;
+    font-weight: 700;
+    margin-top: 15px;
+}
+
+button:hover {
+    opacity: .9;
+}
+
+button.secondary {
+    background-color: #374151;
+    color: var(--text);
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 20px;
+}
+
+.actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
+    gap: 10px;
+}
+
+.logout {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background-color: var(--danger);
+    color: white;
+}
+
+.status {
+    background-color: #020617;
+    border-left: 4px solid var(--accent);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.center {
+    text-align: center;
+}
+
+.error-message {
+    color: var(--danger);
+    margin-top: 10px;
+}
+</style>
 </head>
-<body>
 
-    <!-- Language buttons -->
+<body>
+<!-- Language buttons -->
     <div class="language-switch">
         <button onclick="setLanguage('ro')">Română</button>
         <button onclick="setLanguage('en')">English</button>
     </div>
+<!-- LOGIN -->
+<div id="authContent" class="wrapper">
+	<div class="language-switch">
+    <button onclick="setLanguage('ro')">Română</button>
+    <button onclick="setLanguage('en')">English</button>
+	</div>
+    <div class="panel center" style="max-width:420px;margin:auto;">
+        <h2>Autentificare</h2>
 
-    <!-- Login / Auth -->
-    <div id="authContent">
-        <div id="loginForm">
-            <div class="auth-container">
-                <h2 class="language-text" data-msg="loginTitle"></h2>
-                <div class="form-group">
-                    <input type="email" id="loginEmail" placeholder="Email" required>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="loginPassword" placeholder="Password" required>
-                </div>
-                <button onclick="login()" class="language-text" data-msg="loginBtn"></button>
+        <input type="email" id="loginEmail" placeholder="Email">
+        <input type="password" id="loginPassword" placeholder="Parolă">
 
-                <p class="language-text" data-msg="loginInfo" style="margin-top: 15px; font-size: 14px; color: #cccccc;"></p>
-                <p class="error-message" id="loginError"></p>
-            </div>
-        </div>
+        <button onclick="login()">Login</button>
+
+        <p class="help" style="margin-top:15px;">
+            Dacă ai deja cont, te poți loga folosind datele tale.<br><br>
+            Dacă nu ai cont, trimite un email la<br>
+            <strong>cont.asjb.liis@gmail.com</strong><br><br>
+            sau folosește contul de test:<br>
+            <strong>Email:</strong> test@gmail.com<br>
+            <strong>Parolă:</strong> test123
+        </p>
+
+        <p id="loginError" class="error-message"></p>
     </div>
+</div>
 
-    <!-- Main content -->
-    <div id="mainContent">
-        <button class="logout-btn language-text" data-msg="logoutBtn" onclick="logout()"></button>
+<!-- MAIN -->
+<div id="mainContent" style="display:none;">
+<button class="logout-btn language-text" data-msg="logoutBtn" onclick="logout()"></button>
         <div class="container">
             <h1 class="language-text" data-msg="mainTitle"></h1>
 
@@ -176,13 +219,9 @@
             </div>
         </div>
     </div>
-
-	<!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
-
     <script>
-        const messages = {
+
+	const messages = {
             ro: {
                 loginTitle: "Login pentru Blackjack",
                 loginBtn: "Login",
@@ -803,4 +842,3 @@
     </script>
 </body>
 	</html>
-
