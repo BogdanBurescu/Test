@@ -173,7 +173,7 @@ button.secondary {
         <h3>Setări inițiale</h3>
         <div class="grid-2">
             <div>
-                <label>Bankroll inițial ($)</label>
+                <label>Buget inițial ($)</label>
                 <input type="number" id="initialBankroll">
                 <span class="help">Suma de bani cu care începi jocul</span>
             </div>
@@ -185,7 +185,7 @@ button.secondary {
             <div>
                 <label>Procent unitate (%)</label>
                 <input type="number" id="unitPercentage">
-                <span class="help">Procent din bankroll folosit la mâna jucată</span>
+                <span class="help">Procent din buget folosit la mâna jucată</span>
             </div>
         </div>
         <button onclick="initializeGame()">Start joc</button>
@@ -216,7 +216,7 @@ button.secondary {
             <h3>Cărțile celorlalți jucători</h3>
             <input type="number" id="otherPlayersCard">
 			<button onclick="addOtherPlayerCard()">Adaugă carte</button>
-            <span class="help">Influențează calculul running count</span>
+            <span class="help">Influențează calculul contorului adevărat</span>
         </div>
 
         <div class="panel">
@@ -283,7 +283,7 @@ button.secondary {
     	}
             
             if (!state.bankroll || !state.numDecks) {
-                alert('Te rugăm să introduci valori valide pentru bankroll și numărul de pachete.');
+                alert('Te rugăm să introduci valori valide pentru buget și numărul de pachete.');
                 return;
             }
 
@@ -304,7 +304,7 @@ button.secondary {
             state.currentBet = recommendedBet;
 
             document.getElementById('gameStatus').innerHTML = `
-                <strong>Bankroll curent:</strong> $${state.bankroll.toLocaleString()}<br>
+                <strong>Buget curent:</strong> $${state.bankroll.toLocaleString()}<br>
 				<strong>Contor curent:</strong> ${state.cardCount.toFixed(2)}<br>
 				<strong>Contor adevărat:</strong> ${trueCount.toFixed(2)}<br>
 				<strong>Miza recomandată:</strong> $${recommendedBet.toLocaleString()}
